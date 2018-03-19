@@ -359,9 +359,50 @@ the effects from changes to regularization parameters can be confounded with the
 
 ## Logistic Regression
 
+> instead of predicting exactly 0 or 1, ***logistic regression*** generates a probability —— a value between 0 and 1.
+>
+> Learning Objectives
+>
+> - Understand logistic regression.
+> - Explore loss and regularization functions for logistic regression.
 
 
 
+![](images/log_1.png)
+
+![](images/log_2.png)
+
+![](images/log_3.png)
+
+![](images/log_4.png)
+
+![](images/log_5.png)
+
+![](images/log_6.png)
+
+
+
+Many problems require a probability estimate as output, logistic regression is an extremely efficient mechanism for calculating probabilities. in many cases, you'll map the logistic regression output into the solution to a binary classification problem, in which the goal is to correctly predict one of two possible labels. you might be wondering how a logistic regression model can ensure output that always falls between 0 and 1. a ***sigmoid function*** defined as follows, produces output having those same characteristics:
+$$
+y = \frac 1 {1 + e_{}^{-x}}
+$$
+![](images/log_7.png)
+
+if *x* represents the output of the linear layer of a model trained with logistic regression, the sigmoid(x) will yield a probability between 0 and 1.
+
+
+
+the loss function for linear regression is squared loss, the loss function for logistic regression is ***log loss***, which is defined as follows:
+$$
+LogLoss = \sum_{x, y} -y * log(y') - (1-y) * log(1 - y')
+$$
+
+- y is the label in a labeled example, since this is logistic regression, every value of y must either be 0 or 1;
+- y' is the predicted value(somewhere between 0 and 1), given the set of features in x;
+
+
+
+## Classification
 
 
 
