@@ -404,6 +404,139 @@ $$
 
 ## Classification
 
+this module shows how logistic regression can be used for classification tasks, and explores how to evaluate the effectiveness of classificatin models.
+
+> Learning Objectives
+>
+> - Evaluating the accuracy and precision of a logistic regression model.
+> - Understanding ROC Curves and AUCs.
+
+![](images/calss_1.png)
+
+![](images/calss_2.png)
+
+![](images/calss_3.png)
+
+![](images/calss_4.png)
+
+![](images/calss_5.png)
+
+![](images/calss_6.png)
+
+![](images/calss_7.png)
+
+![](images/calss_8.png)
+
+![](images/calss_9.png)
+
+![](images/calss_10.png)
+
+Logistic regression returns a probability. you can use the returned probability directly or convert the returned probability to a binary value.
+
+
+
+![](images/calss_11.png)
+
+
+$$
+accuracy = \frac {TP + TN}{TP + TN + FP + FN}
+$$
+Sometimes use ***accuracy*** may ignore some detail and import problem on the model it self, here is an example bellow:
+
+![](images/calss_12.png)
+
+in the photo above, the ***accuracy*** of this model is (1 + 90) / (1 + 90 + 1 + 8) = 0.91. which seems great. But let's do a closer analysis of positives and negatives to ***gain more insight into our model's performance***:
+
+- Of the 100 tumor examples, 91 are benign (90 TN and 1 FP) and 9 are maligant(1 TP and 8 FN)
+- of the 91 benign tumors, the model correctly identifies 90 as benign, that's great; however, of the 9 malignant tumors, the model only correctly identifies 1 as malignant - a terrible outcome, as 8 out of 9 malignancies go undiagnosed.
+
+while 91% accuracy may seem good at first glance, another tumor-classifier model that always predicts benign would achieve the exact same accuracy (0.91)  on our example. in other words, our model is no better than one that has zero predictive ability to distinguish malignant tumors from benign tumors.
+
+Accuracy alone doesn't tell the full story when you're working with a ***class-imbalanced data set***, like this one, where there is a significant disparity between the number of positive and negative labels.
+
+
+
+so we derived some other evaluate method to value a model.
+
+***precision*** answer the question `what proportion of positive identifications was actually correct?`, and is defined as follows:
+$$
+precision = \frac {TP}{TP + FP}
+$$
+in the above model, the precision is (1)/(1 + 1) = 50%，our model has a precision of 0.5, in other words, when it predicts a tumor is malignant, it is correct 50% of the time. 
+
+
+
+***recall*** answer the question `what proportion of actual positives was identified correctly`, is defined as follows:
+$$
+recall = \frac {TP}{TP + FN}
+$$
+our model has a recall of (1)/(1+8) = 0.11, in other words, it correctly identifies 11% of all malignant tumors.
+
+
+
+to fully evaluate the effectiveness of a model, you must examine both precision and recall. But precision and recall are often in tension, that's improving precision typically reduces recall and vice versa. so sometimes we use ***F1 score*** to evaluate a model, which rely on both precision and recall.
+
+
+
+Besides precision, recall and F1 score, we also have 2 powerful tool to evaluate a model, that's ***ROC curve*** and ***AUC***.
+
+An ***ROC curve (receiver operating characteristic curve)*** is a graph showing the performance of a classification model at all classification thresholds. this curve plots two parameters:
+
+- True Positive Rate
+- False Positive Rate
+
+***True positive rate(TPR)*** is a synonym for recall and is therefore defined as follows:
+$$
+TPR = \frac {TP}{TP + FN}
+$$
+***False positive rate(FPR)*** is defined as follows:
+$$
+FPR = \frac {FP}{FP + TN}
+$$
+an roc curve plots TPR vs FPR at different classification thresholds. lowering the classification threshold classifies more items as positive, thus increasing both FP and TP, the following figure shows a typical ROC curve:
+
+![](images/class_13.png)
+
+to compute the points in an ROC curve, we could evaluate a logistic regression model many times with different classification thresholds, but this would be inefficient. But there'is an efficient and sorting-based algorithm that can provide this information for us, called ***AUC***.
+
+***AUC*** stands for `area under the ROC curve`, that's measures the entire two-dimensional area underneath the entire ROC curve from (0, 0) to (1, 1).
+
+![](images/class_14.png)
+
+AUC provides an aggregate measure of performance across all possible classification thresholds. One way of interpreting AUC is as the probability that the model ranks a random positive example more highly than a random negative example.
+
+
+
+for more information, check bellow:
+
+- [精确率、召回率、F1 值、ROC、AUC 各自的优缺点是什么？](https://www.zhihu.com/question/30643044)
+
+
+
+logistic regression predictions should be unbiased, that's `average of predictions should equal to average of observations`, and ***prediction bias*** is a quantity that measures how far apart those two averages are, that is:
+$$
+prediction \ bias = average \ of \ predictions - average \ of \ labels \ in \ data \ set
+$$
+A significant nonzero prediction bias tells you there is a bug somewhere in your model, as it indicates that the model is wrong about how frequently positive labels occur.
+
+```
+For example, let's say we know that on average, 1% of all emails are spam. If we don't know anything at all about a given email, we should predict that it's 1% likely to be spam. Similarly, a good spam model should predict on average that emails are 1% likely to be spam. (In other words, if we average the predicted likelihoods of each individual email being spam, the result should be 1%.) If instead, the model's average prediction is 20% likelihood of being spam, we can conclude that it exhibits prediction bias.
+```
+
+ possible root causes of prediction bias are:
+
+- Imcomplete feature set
+- noisy data set
+- buggy pipeline 
+- Biased training sample
+- overly strong regularization
+
+
+
+## Regularization for Sparsity
+
+
+
 
 
 
